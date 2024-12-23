@@ -1,0 +1,9 @@
+build/
+target/
+.micronaut/
+.idea
+*.iml
+*.ipr
+*.iws
+.env
+.mysql-db

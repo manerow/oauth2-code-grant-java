@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.feastly.oauth
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [app-name, data, data-jdbc, flyway, http-client, java, java-application, jdbc-hikari, junit, logback, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, mockito, mysql, netty-server, readme, security-annotations, security-session, serialization-jackson, shade, static-resources, test-resources, testcontainers, validation, views-fieldset, views-thymeleaf, yaml, yaml-build]
