@@ -5,5 +5,4 @@ import com.feastly.oauth.shared.IntegrationTestBase;
 
 class AuthorizationControllerTest extends IntegrationTestBase {
 
-
 }

@@ -1,0 +1,19 @@
+micronaut:
+  server:
+    port: 9090
+  application:
+    name: feastly-auth-test
+
+datasources:
+  default:
+    db-type: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    schema-generate: NONE
+    dialect: MYSQL
+    hikari:
+      maximum-pool-size: 10
+
+flyway:
+  datasources:
+    default:
+      enabled: true

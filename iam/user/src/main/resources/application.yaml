@@ -1,0 +1,22 @@
+micronaut:
+  application:
+    name: feastly-iam-user
+  server:
+    port: 8082
+  datasources:
+    user_bc:
+      db-type: mysql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/user_db
+      username: ${MYSQLDB_USER_BC_USER}
+      password: ${MYSQLDB_USER_BC_PASSWORD}
+      schema: user_db
+      schema-generate: NONE
+      dialect: MYSQL
+      hikari:
+        maximum-pool-size: 5
+
+flyway:
+  datasources:
+    user_bc:
+      enabled: true

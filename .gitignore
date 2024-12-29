@@ -6,4 +6,4 @@ target/
 *.ipr
 *.iws
 .env
-.mysql-db
+.mysql-db/
