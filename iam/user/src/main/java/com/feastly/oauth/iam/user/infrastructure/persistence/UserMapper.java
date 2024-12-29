@@ -14,7 +14,7 @@ public final class UserMapper {
             .withUsername(entity.getUsername())
             .withPasswordHash(entity.getPasswordHash())
             .withRoles(entity.getRoles())
-            .withAuthorizedScopes(entity.getAuthorizedScopes())
+            .withAuthorizedScopes(entity.getScopes())
             .get();
     }
 
@@ -24,7 +24,7 @@ public final class UserMapper {
             .withUsername(user.getUsername())
             .withPasswordHash(user.getPasswordHash())
             .withRoles(user.getRoles())
-            .withAuthorizedScopes(user.getAuthorizedScopes())
+            .withScopes(user.getAuthorizedScopes())
             .get();
     }
 

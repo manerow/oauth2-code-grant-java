@@ -12,7 +12,7 @@ public class Client {
     private final UUID id;
     private final String secret;
     private final String redirectUri;
-    private final Set<String> scopes; // Updated to use Scopes value object
+    private final Set<String> scopes;
     private final String authorizedGrantTypes;
 
     // Constructor

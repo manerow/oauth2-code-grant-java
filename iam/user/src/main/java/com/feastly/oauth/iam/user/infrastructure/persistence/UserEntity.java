@@ -1,10 +1,15 @@
 package com.feastly.oauth.iam.user.infrastructure.persistence;
 
+import io.micronaut.data.annotation.DateCreated;
+import io.micronaut.data.annotation.DateUpdated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @MappedEntity
 public class UserEntity {
@@ -14,15 +19,20 @@ public class UserEntity {
     private String username;
     private String passwordHash;
     private String roles;
-    private Set<String> authorizedScopes;
+    private String scopes;
 
-    // Private constructor to prevent direct instantiation
+    @DateCreated
+    private Instant createdAt;
+
+    @DateUpdated
+    private Instant updatedAt;
+
     private UserEntity(Builder builder) {
         this.id = builder.id;
         this.username = builder.username;
         this.passwordHash = builder.passwordHash;
         this.roles = builder.roles;
-        this.authorizedScopes = builder.authorizedScopes;
+        this.scopes = builder.scopes;
     }
 
     // Getters
@@ -42,18 +52,34 @@ public class UserEntity {
         return roles;
     }
 
-    public Set<String> getAuthorizedScopes() {
-        return authorizedScopes;
+    public Set<String> getScopes() {
+        return scopes == null || scopes.isEmpty()
+            ? Set.of()
+            : Arrays.stream(scopes.split(" "))
+                .collect(Collectors.toSet());
     }
 
-    // Builder Class for UserEntity
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
     public static class Builder implements Supplier<UserEntity> {
 
         private UUID id;
         private String username;
         private String passwordHash;
         private String roles;
-        private Set<String> authorizedScopes;
+        private String scopes;
+
+        private static String serializeScopes(Set<String> scopes) {
+            return scopes == null || scopes.isEmpty()
+                ? ""
+                : String.join(" ", scopes);
+        }
 
         public Builder withId(UUID id) {
             this.id = id;
@@ -65,7 +91,6 @@ public class UserEntity {
             return this;
         }
 
-
         public Builder withPasswordHash(String passwordHash) {
             this.passwordHash = passwordHash;
             return this;
@@ -76,8 +101,8 @@ public class UserEntity {
             return this;
         }
 
-        public Builder withAuthorizedScopes(Set<String> scopes) {
-            this.authorizedScopes = scopes;
+        public Builder withScopes(Set<String> scopes) {
+            this.scopes = serializeScopes(scopes);
             return this;
         }
 

@@ -1,20 +1,31 @@
 package com.feastly.oauth.iam.client.infrastructure.persistence;
 
+import io.micronaut.data.annotation.DateCreated;
+import io.micronaut.data.annotation.DateUpdated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @MappedEntity
 public class ClientEntity {
 
     @Id
-    private UUID id;
-    private String secret;
-    private String redirectUri;
-    private Set<String> scopes;
-    private String authorizedGrantTypes;
+    private final UUID id;
+    private final String secret;
+    private final String redirectUri;
+    private final String scopes;
+    private final String authorizedGrantTypes;
+
+    @DateCreated
+    private Instant createdAt;
+
+    @DateUpdated
+    private Instant updatedAt;
 
     public ClientEntity(Builder builder) {
         this.id = builder.id;
@@ -37,11 +48,22 @@ public class ClientEntity {
     }
 
     public Set<String> getScopes() {
-        return scopes;
+        return scopes == null || scopes.isEmpty()
+            ? Set.of()
+            : Arrays.stream(scopes.split(" "))
+                .collect(Collectors.toSet());
     }
 
     public String getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     public static class Builder implements Supplier<ClientEntity> {
@@ -49,8 +71,14 @@ public class ClientEntity {
         private UUID id;
         private String secret;
         private String redirectUri;
-        private Set<String> scopes;
+        private String scopes;
         private String authorizedGrantTypes;
+
+        private static String serializeScopes(Set<String> scopes) {
+            return scopes == null || scopes.isEmpty()
+                ? ""
+                : String.join(" ", scopes);
+        }
 
         public Builder withId(UUID id) {
             this.id = id;
@@ -68,7 +96,7 @@ public class ClientEntity {
         }
 
         public Builder withScopes(Set<String> scopes) {
-            this.scopes = scopes;
+            this.scopes = serializeScopes(scopes);
             return this;
         }
 
@@ -77,6 +105,7 @@ public class ClientEntity {
             return this;
         }
 
+        @Override
         public ClientEntity get() {
             return new ClientEntity(this);
         }
